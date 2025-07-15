@@ -114,21 +114,6 @@ services:
     networks:
       - comment_analysis_network
 
-  # ai-chatbot-ui:
-  #   build:
-  #     context: ./ai-chatbot
-  #     dockerfile: Dockerfile.streamlit
-  #   container_name: chatbot_ui
-  #   ports:
-  #     - "8501:8501"
-  #   environment:
-  #     - API_URL=http://ai-chatbot-api:8000
-  #   depends_on:
-  #     - ai-chatbot-api
-  #   restart: unless-stopped
-  #   networks:
-  #     - chatbot_network
-
   ai-chatbot-dashboard:
     build:
       context: .
