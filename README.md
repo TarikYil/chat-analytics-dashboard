@@ -2,6 +2,7 @@
 
 This project is a comprehensive system that includes an AI Chatbot, Kafka integration, and an advanced analytics dashboard.
 
+
 ## 🚀 Features
 
 ### 🤖 AI Chatbot
@@ -308,5 +309,6 @@ This project is licensed under the MIT License.
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request #   c h a t - a n a l y t i c s - d a s h b o a r d  
+5. Create a Pull Request #   c h a t - a n a l y t i c s - d a s h b o a r d 
+ 
  

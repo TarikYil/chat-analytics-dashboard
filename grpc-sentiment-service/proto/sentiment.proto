@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package sentiment;
+
+service SentimentAnalysis {
+  rpc AnalyzeSentiment(SentimentRequest) returns (SentimentResponse);
+  rpc GetServiceStatus(StatusRequest) returns (StatusResponse);
+}
+
+message SentimentRequest {
+  string text = 1;
+  string language = 2;
+  string request_id = 3;
+}
+
+message SentimentResponse {
+  string sentiment = 1;  // positive, negative, neutral
+  double confidence = 2;
+  double processing_time = 3;
+  string request_id = 4;
+  string status = 5;  // success, error, rate_limited
+  string error_message = 6;
+}
+
+message StatusRequest {
+  string service_name = 1;
+}
+
+message StatusResponse {
+  string status = 1;  // healthy, unhealthy
+  int32 requests_per_second = 2;
+  int32 total_requests = 3;
+  double average_response_time = 4;
+  int32 rate_limit = 5;
+  int32 current_queue_size = 6;
+} 

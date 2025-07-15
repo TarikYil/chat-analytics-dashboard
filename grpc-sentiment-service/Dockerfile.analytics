@@ -1,0 +1,36 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy proto files
+COPY proto/ ./proto/
+
+# Generate protobuf files
+RUN python -m grpc_tools.protoc \
+    --python_out=. \
+    --grpc_python_out=. \
+    --proto_path=proto \
+    proto/analytics.proto
+
+# Copy application code
+COPY analytics_server.py .
+COPY analytics_client.py .
+
+# Expose port
+EXPOSE 50052
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import grpc; import analytics_pb2_grpc; channel = grpc.insecure_channel('localhost:50052'); stub = analytics_pb2_grpc.AnalyticsServiceStub(channel); channel.close()" || exit 1
+
+# Run the analytics server
+CMD ["python", "analytics_server.py"] 

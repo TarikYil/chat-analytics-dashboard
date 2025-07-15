@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package analytics;
+
+service AnalyticsService {
+  rpc GetAllAnalytics(AnalyticsRequest) returns (AnalyticsResponse);
+  rpc GetSentimentDistribution(SentimentDistributionRequest) returns (SentimentDistributionResponse);
+  rpc GetCategoryDistribution(CategoryDistributionRequest) returns (CategoryDistributionResponse);
+  rpc GetTimeSeriesData(TimeSeriesRequest) returns (TimeSeriesResponse);
+  rpc GetTopKeywords(TopKeywordsRequest) returns (TopKeywordsResponse);
+  rpc GetServiceMetrics(ServiceMetricsRequest) returns (ServiceMetricsResponse);
+  rpc GetRealTimeStats(RealTimeStatsRequest) returns (RealTimeStatsResponse);
+}
+
+message AnalyticsRequest {
+  string time_range = 1;
+  string interval = 2;
+  string category_filter = 3;
+  string sentiment_filter = 4;
+  int32 keyword_limit = 5;
+}
+
+message AnalyticsResponse {
+  SentimentDistributionResponse sentiment = 1;
+  CategoryDistributionResponse category = 2;
+  TimeSeriesResponse time_series = 3;
+  TopKeywordsResponse keywords = 4;
+  RealTimeStatsResponse real_time = 5;
+}
+
+message SentimentDistributionRequest {
+  string time_range = 1;  // "1h", "24h", "7d", "30d"
+  string category_filter = 2;  // optional category filter
+}
+
+message SentimentDistributionResponse {
+  map<string, int32> sentiment_counts = 1;  // positive, negative, neutral
+  int32 total_comments = 2;
+  double positive_percentage = 3;
+  double negative_percentage = 4;
+  double neutral_percentage = 5;
+  string time_range = 6;
+}
+
+message CategoryDistributionRequest {
+  string time_range = 1;
+  string sentiment_filter = 2;  // optional sentiment filter
+}
+
+message CategoryDistributionResponse {
+  map<string, int32> category_counts = 1;
+  int32 total_comments = 2;
+  repeated CategoryPercentage category_percentages = 3;
+  string time_range = 4;
+}
+
+message CategoryPercentage {
+  string category = 1;
+  int32 count = 2;
+  double percentage = 3;
+}
+
+message TimeSeriesRequest {
+  string time_range = 1;  // "1h", "24h", "7d", "30d"
+  string interval = 2;  // "1m", "5m", "1h", "1d"
+  string metric = 3;  // "sentiment", "category", "volume"
+}
+
+message TimeSeriesResponse {
+  repeated TimeSeriesPoint data_points = 1;
+  string time_range = 2;
+  string interval = 3;
+  string metric = 4;
+}
+
+message TimeSeriesPoint {
+  string timestamp = 1;
+  map<string, int32> values = 2;
+  int32 total_count = 3;
+}
+
+message TopKeywordsRequest {
+  string time_range = 1;
+  string sentiment_filter = 2;  // optional
+  string category_filter = 3;  // optional
+  int32 limit = 4;  // default 10
+}
+
+message TopKeywordsResponse {
+  repeated KeywordFrequency keywords = 1;
+  int32 total_comments = 2;
+  string time_range = 3;
+}
+
+message KeywordFrequency {
+  string keyword = 1;
+  int32 frequency = 2;
+  double percentage = 3;
+}
+
+message ServiceMetricsRequest {
+  string service_name = 1;
+  string time_range = 2;
+}
+
+message ServiceMetricsResponse {
+  double average_response_time = 1;
+  int32 total_requests = 2;
+  int32 successful_requests = 3;
+  int32 failed_requests = 4;
+  double success_rate = 5;
+  int32 requests_per_second = 6;
+  repeated ServiceHealthCheck health_checks = 7;
+}
+
+message ServiceHealthCheck {
+  string service_name = 1;
+  string status = 2;  // healthy, unhealthy, degraded
+  double response_time = 3;
+  string last_check = 4;
+}
+
+message RealTimeStatsRequest {
+  string metric = 1;  // "comments_per_minute", "sentiment_ratio", "category_breakdown"
+}
+
+message RealTimeStatsResponse {
+  double comments_per_minute = 1;
+  double positive_ratio = 2;
+  double negative_ratio = 3;
+  double neutral_ratio = 4;
+  map<string, int32> category_breakdown = 5;
+  int32 active_consumers = 6;
+  int32 queue_size = 7;
+  string timestamp = 8;
+} 

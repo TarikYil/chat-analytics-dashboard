@@ -1,0 +1,41 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    build-essential \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY kafka-services/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy proto files and generate gRPC code
+COPY ../grpc-sentiment-service/proto/ ./proto/
+RUN python -m grpc_tools.protoc \
+    --python_out=. \
+    --grpc_python_out=. \
+    --proto_path=proto \
+    proto/sentiment.proto
+
+# Copy application code
+COPY kafka-services/consumer/ ./consumer/
+COPY kafka-services/shared/ ./shared/
+COPY kafka-services/config.py ./config.py
+
+# Create entrypoint script
+RUN echo '#!/bin/bash\n\
+echo "Waiting for Kafka to be ready..."\n\
+until nc -z kafka 9092; do\n\
+  echo "Kafka is not ready - waiting..."\n\
+  sleep 2\n\
+done\n\
+echo "Kafka is ready!"\n\
+exec python consumer/main.py' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
+
+EXPOSE 8002
+
+CMD ["/app/entrypoint.sh"] 
