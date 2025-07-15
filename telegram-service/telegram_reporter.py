@@ -15,8 +15,6 @@ logger = logging.getLogger("telegram-reporter")
 KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka:9092')
 KAFKA_TOPICS = ['raw-comments', 'sentiment_analytics', 'category_analytics', 'realtime_analytics']
 
-bot = Bot(token="8140408145:AAEw60OyXf6YNJcEnozHn10VtOt_JSA1Ns0")
-
 def get_dashboard_summary():
     try:
         redis_client = redis.Redis(host="redis", port=6379, decode_responses=True)
@@ -71,7 +69,7 @@ class TelegramReporter:
             time.sleep(self.interval)
             dashboard_summary = get_dashboard_summary()
             try:
-                bot.send_message(chat_id="7933901900", text=dashboard_summary, parse_mode="Markdown")
+                bot.send_message(chat_id="", text=dashboard_summary, parse_mode="Markdown")
                 logger.info("Dashboard summary sent to Telegram.")
             except Exception as e:
                 logger.error(f"Could not send message to Telegram: {e}")
