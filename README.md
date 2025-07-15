@@ -2,45 +2,44 @@
 
 This project is a comprehensive system that includes an AI Chatbot, Kafka integration, and an advanced analytics dashboard.
 
+## Features
 
-## 🚀 Features
-
-### 🤖 AI Chatbot
+### AI Chatbot
 - **STM (Short Term Memory):** Session-based user data
 - **LTM (Long Term Memory):** Persistent user data
 - **Google Gemini LLM:** Advanced AI model integration
 - **Embedding-Based Memory:** Vector-based similarity search
 
-### 📊 Analytics Dashboard
+### Analytics Dashboard
 - **Real-time Analytics:** Live data visualization
 - **Sentiment Analysis:** Sentiment analysis charts
 - **Category Distribution:** Category distribution
 - **Time Series Analysis:** Time series analysis
 - **Interactive Charts:** Interactive charts based on Plotly
 
-### 🔄 Kafka Integration
+### Kafka Integration
 - **Producer Service:** Comment generation and sending
 - **Consumer Service:** Message listening and processing
 - **REST APIs:** API endpoints for Kafka services
 - **Real-time Processing:** Real-time data processing
 
-### 📋 REST API
+### REST API
 - **Comments API:** List processed comments
 - **Filtering:** Filtering by category and sentiment
 - **Statistics:** Comment statistics
 - **Health Checks:** Service health monitoring
 
-### 🗄️ PostgreSQL Database
+### PostgreSQL Database
 - **Docker Container:** PostgreSQL 15 Alpine
 - **Persistent Storage:** Volume-based data persistence
 - **Health Checks:** Database health monitoring
 - **Initialization Script:** Automatic schema creation
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 comment_analysis_1/
-├── ai-chatbot/
+├── api-services/
 │   ├── app/
 │   │   ├── main.py                 # FastAPI main application
 │   │   ├── database/
@@ -74,7 +73,7 @@ comment_analysis_1/
 └── README.md                      # Project documentation
 ```
 
-## 🛠️ Installation
+## Installation
 
 ### Requirements
 - Docker and Docker Compose
@@ -104,7 +103,7 @@ comment_analysis_1/
    docker-compose logs -f
    ```
 
-## 🌐 Service Access
+## Service Access
 
 | Service | URL | Description |
 |---------|-----|-------------|
@@ -117,7 +116,7 @@ comment_analysis_1/
 | **Redis** | localhost:6379 | Cache |
 | **Kafka** | localhost:9092 | Message broker |
 
-## 🗄️ PostgreSQL Database
+## PostgreSQL Database
 
 ### Docker Container Features
 - **Image:** `postgres:15-alpine`
@@ -158,7 +157,7 @@ CREATE TABLE processed_comments (
 );
 ```
 
-## 📊 Dashboard Features
+## Dashboard Features
 
 ### Real-time Analytics
 - **Sentiment Distribution:** Sentiment analysis distribution
@@ -176,7 +175,7 @@ CREATE TABLE processed_comments (
 - **Test Messages:** Send test messages
 - **Auto-refresh:** Automatic data refresh
 
-## 🔌 REST API Endpoints
+## REST API Endpoints
 
 ### AI Chatbot API (Port 8000)
 ```
@@ -205,7 +204,7 @@ POST /consume                 # Manually consume messages
 GET  /health                  # Health check
 ```
 
-## 📈 Usage Examples
+## Usage Examples
 
 ### Dashboard Usage
 1. Access the **Analytics Dashboard**: http://localhost:8502
@@ -282,7 +281,7 @@ docker-compose down -v
 docker-compose up -d
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Service Startup Issues
 1. **Port conflict:** Check the ports
@@ -299,16 +298,14 @@ docker-compose up -d
 2. **Data loading:** Check database connection
 3. **Charts:** Check Plotly dependencies
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License.
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request #   c h a t - a n a l y t i c s - d a s h b o a r d 
- 
- 
+5. Create a Pull Request 
