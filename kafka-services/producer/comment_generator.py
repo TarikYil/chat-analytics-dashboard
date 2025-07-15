@@ -18,7 +18,7 @@ class CommentGenerator:
     def __init__(self):
         self.genai = genai
         # API key'i doğrudan kod içinde tanımla
-        api_key = "AIzaSyAjwb2JaXkLONFr_EvhHEkyUEwrb0szgs4"
+        api_key = ""
         logger.info("Initializing Gemini LLM...")
         print(f"Gemini API Key: {api_key[:6]}...")  # güvenlik için sadece ilk 6 karakter
         if api_key:
