@@ -4,12 +4,6 @@ This project is a comprehensive system that includes an AI Chatbot, Kafka integr
 
 ## Features
 
-### AI Chatbot
-- **STM (Short Term Memory):** Session-based user data
-- **LTM (Long Term Memory):** Persistent user data
-- **Google Gemini LLM:** Advanced AI model integration
-- **Embedding-Based Memory:** Vector-based similarity search
-
 ### Analytics Dashboard
 - **Real-time Analytics:** Live data visualization
 - **Sentiment Analysis:** Sentiment analysis charts
@@ -39,38 +33,70 @@ This project is a comprehensive system that includes an AI Chatbot, Kafka integr
 
 ```
 comment_analysis_1/
-├── api-services/
-│   ├── app/
-│   │   ├── main.py                 # FastAPI main application
-│   │   ├── database/
-│   │   │   └── schema.py           # Database schema
-│   │   ├── memory/
-│   │   │   ├── main.py             # Memory manager
-│   │   │   ├── stm.py              # Short term memory
-│   │   │   └── ltm.py              # Long term memory
-│   │   └── llm/
-│   │       └── gemini.py           # Google Gemini integration
-│   ├── ui/
-│   │   ├── main.py                 # Streamlit chat UI
-│   │   └── dashboard.py            # Analytics dashboard
-│   ├── Dockerfile.api              # API Dockerfile
-│   ├── Dockerfile.streamlit        # Streamlit Dockerfile
-│   └── requirements.txt            # Python dependencies
-├── kafka-services/
-│   ├── producer/
-│   │   ├── main.py                 # Producer entry point
-│   │   └── kafka_producer.py       # Kafka producer service
-│   ├── consumer/
-│   │   ├── main.py                 # Consumer entry point
-│   │   └── kafka_consumer.py       # Kafka consumer service
-│   ├── shared/
-│   │   └── config.py               # Shared configuration
-│   ├── Dockerfile.producer         # Producer Dockerfile
-│   ├── Dockerfile.consumer         # Consumer Dockerfile
-│   └── requirements.txt            # Kafka dependencies
-├── init-db.sql                     # PostgreSQL init script
-├── docker-compose.yml              # Docker Compose configuration
-└── README.md                      # Project documentation
+├── comment_analysis_1/
+│   ├── api-service/
+│   │   ├── app/
+│   │   │   ├── __init__.py
+│   │   │   ├── database/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── schema.py
+│   │   │   ├── main.py
+│   │   │   └── models.py
+│   │   ├── Dockerfile.api
+│   │   ├── Dockerfile.dashboard
+│   │   ├── requirements.txt
+│   │   └── ui/
+│   │       ├── analytics_client.py
+│   │       ├── analytics_pb2_grpc.py
+│   │       ├── analytics_pb2.py
+│   │       ├── dashboard.py
+│   │       └── kafka_consumer.py
+│   ├── docker-compose.yml
+│   ├── grpc-sentiment-service/
+│   │   ├── analytics_client.py
+│   │   ├── analytics_pb2_grpc.py
+│   │   ├── analytics_pb2.py
+│   │   ├── analytics_server.py
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile.analytics
+│   │   ├── proto/
+│   │   │   ├── analytics.proto
+│   │   │   └── sentiment.proto
+│   │   ├── requirements.txt
+│   │   ├── sentiment_client.py
+│   │   └── sentiment_server.py
+│   ├── kafka-services/
+│   │   ├── analytics_consumer.py
+│   │   ├── config.py
+│   │   ├── consumer/
+│   │   │   ├── __init__.py
+│   │   │   ├── comment_processor.py
+│   │   │   ├── kafka_consumer.py
+│   │   │   ├── main.py
+│   │   │   └── message_processor.py
+│   │   ├── Dockerfile.analytics-consumer
+│   │   ├── Dockerfile.consumer
+│   │   ├── Dockerfile.producer
+│   │   ├── producer/
+│   │   │   ├── __init__.py
+│   │   │   ├── comment_generator.py
+│   │   │   ├── config.py
+│   │   │   ├── kafka_producer.py
+│   │   │   ├── main.py
+│   │   │   └── message_generator.py
+│   │   ├── requirements.txt
+│   │   └── shared/
+│   │       ├── __init__.py
+│   │       ├── kafka_client.py
+│   │       └── utils.py
+│   ├── README.md
+│   └── telegram-service/
+│       ├── Dockerfile
+│       ├── requirements.txt
+│       └── telegram_reporter.py
+├── docker-compose.yml
+
+
 ```
 
 ## Installation
@@ -107,8 +133,7 @@ comment_analysis_1/
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| **AI Chatbot API** | http://localhost:8000 | FastAPI backend |
-| **Chat UI** | http://localhost:8501 | Streamlit chat interface |
+| **API** | http://localhost:8000 | FastAPI backend |
 | **Analytics Dashboard** | http://localhost:8502 | Advanced analytics dashboard |
 | **Kafka Producer API** | http://localhost:8001 | Kafka producer REST API |
 | **Kafka Consumer API** | http://localhost:8002 | Kafka consumer REST API |
@@ -177,7 +202,7 @@ CREATE TABLE processed_comments (
 
 ## REST API Endpoints
 
-### AI Chatbot API (Port 8000)
+### API (Port 8000)
 ```
 POST /chat                    # Chat endpoint
 GET  /health                  # Health check
