@@ -2,6 +2,8 @@
 
 This project is a comprehensive system that includes an AI Chatbot, Kafka integration, and an advanced analytics dashboard.
 
+<img width="1905" height="890" alt="Ekran görüntüsü 2025-07-14 032105" src="https://github.com/user-attachments/assets/963211a5-5f81-461a-9357-00b58fb257a4" />
+
 ## Features
 
 ### Analytics Dashboard
